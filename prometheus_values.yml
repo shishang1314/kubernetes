@@ -1,0 +1,25 @@
+server:
+  global:
+    scrape_interval: 15s
+  scrape_configs:
+    - job_name: 'kubernetes-apiservers'
+      kubernetes_sd_configs:
+        - role: endpoints
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_service_name]
+          action: keep
+          regex: kubernetes
+    - job_name: 'kubernetes-nodes'
+      kubernetes_sd_configs:
+        - role: node
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_node_label_kubernetes_io_arch]
+          action: keep
+          regex: amd64
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+        - role: pod
+      relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_label_app]
+          action: keep
+          regex: .*

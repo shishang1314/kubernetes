@@ -1,0 +1,19 @@
+adminPassword: "admin"
+service:
+  type: NodePort
+  port: 30001
+  nodePort: 32000
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+
+persistence:
+  enabled: true
+  storageClassName: "default"
+  accessModes:
+    - "ReadWriteOnce"
+  size: 10Gi
+
+plugins:
+  - grafana-clock-panel
+  - grafana-piechart-panel
+  - grafana-simple-json-datasource
